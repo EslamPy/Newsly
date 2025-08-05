@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Newsly - Smart News App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        /* Advanced Background Effects */
+        .hero {
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(255,255,255,0.03) 0%, transparent 50%),
+                linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                conic-gradient(from 0deg at 50% 50%, transparent 0deg, rgba(255,255,255,0.02) 90deg, transparent 180deg, rgba(255,255,255,0.02) 270deg, transparent 360deg);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.03) 50%, transparent 70%);
+            animation: shimmer 4s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Floating particles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Typography */
+        .logo {
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateY(50px) scale(0.8);
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+            z-index: 2;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(30px);
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-cta {
+            font-size: 1.3rem;
+            opacity: 0;
+            transform: translateY(20px);
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Modern iPhone 15 Mockup */
+        .phone-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .phone-mockup {
+            width: 320px;
+            height: 650px;
+            background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 50%, #000 100%);
+            border-radius: 55px;
+            padding: 8px;
+            position: relative;
+            margin: 0 auto;
+            box-shadow: 
+                0 0 0 2px rgba(255,255,255,0.1),
+                0 20px 60px rgba(0,0,0,0.8),
+                0 40px 120px rgba(0,0,0,0.4),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            transform-style: preserve-3d;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 48px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phone-screen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 48px;
+        }
+
+        /* Dynamic Island */
+        .phone-notch {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 130px;
+            height: 32px;
+            background: #000;
+            border-radius: 25px;
+            z-index: 10;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* Screen reflection */
+        .phone-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            border-radius: 48px;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        /* Placeholder for screen content */
+        .screen-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #666;
+            border-radius: 48px;
+        }
+
+        /* Feature Grid with Modern Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            transform: translateY(50px);
+            opacity: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            border-radius: 28px;
+            margin: 0 auto 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transform: translateY(10px);
+            opacity: 0;
+        }
+
+        .feature-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        .feature-desc {
+            opacity: 0.8;
+            line-height: 1.7;
+            font-size: 1.1rem;
+            transform: translateY(20px);
+            opacity: 0;
+        }
+
+        /* Section Titles with Advanced Typography */
+        .section-title {
+            font-size: 4rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(50px) scale(0.9);
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #fff, transparent);
+            opacity: 0;
+        }
+
+        .section-subtitle {
+            font-size: 1.4rem;
+            text-align: center;
+            opacity: 0.8;
+            margin-bottom: 4rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            opacity: 0;
+            transform: translateY(30px);
+            line-height: 1.6;
+        }
+
+        /* Mockup Sections with Enhanced Layout */
+        .mockup-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .mockup-content {
+            opacity: 0;
+            transform: translateX(-50px);
+        }
+
+        .mockup-content h3 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .mockup-content p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            opacity: 0.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .mockup-features {
+            list-style: none;
+        }
+
+        .mockup-features li {
+            padding: 1rem 0;
+            font-size: 1.2rem;
+            opacity: 0.9;
+            position: relative;
+            padding-left: 3rem;
+            transform: translateX(-20px);
+            opacity: 0;
+        }
+
+        .mockup-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #fff;
+            font-weight: bold;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        /* Advanced Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 4rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            background: 
+                linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 3rem 2rem;
+            border-radius: 24px;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .stat-number {
+            font-size: 4.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            transform: scale(0.5);
+            opacity: 0;
+        }
+
+        .stat-label {
+            font-size: 1.3rem;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+
+        /* Premium CTA Section */
+        .cta-section {
+            background: 
+                radial-gradient(circle at 30% 20%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 70% 80%, rgba(255,255,255,0.03) 0%, transparent 50%),
+                linear-gradient(135deg, #000 0%, #1a1a1a 50%, #000 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+            color: #000;
+            padding: 2rem 5rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.3rem;
+            transition: all 0.4s ease;
+            transform: translateY(30px) scale(0.9);
+            opacity: 0;
+            box-shadow: 0 20px 60px rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 30px 80px rgba(255,255,255,0.2);
+        }
+
+        /* Advanced Scroll Progress */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #fff 0%, #ccc 100%);
+            z-index: 1000;
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(255,255,255,0.5);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .mockup-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 3rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section-title {
+                font-size: 2.8rem;
+            }
+            
+            .logo {
+                font-size: 3.5rem;
+            }
+
+            .phone-mockup {
+                width: 280px;
+                height: 570px;
+            }
+        }
+
+        /* Advanced hover effects */
+        .phone-mockup:hover {
+            animation: phoneFloat 2s ease-in-out infinite;
+        }
+
+        @keyframes phoneFloat {
+            0%, 100% { transform: translateY(0) rotateY(0deg); }
+            50% { transform: translateY(-20px) rotateY(5deg); }
+        }
+
+        /* Glassmorphism Effects */
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Loading Animation */
+        .loader {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #fff;
+            animation: loader 1.5s infinite ease-in-out;
+        }
+
+        @keyframes loader {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-progress"></div>
+    <div class="particles"></div>
+
+    <!-- Hero Section -->
+    <section class="section hero">
+        <div class="container">
+            <h1 class="logo">Newsly</h1>
+            <p class="tagline">SMART NEWS APP</p>
+            <p class="hero-cta">The future of news consumption is here</p>
+        </div>
+    </section>
+
+    <!-- Introduction -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Revolutionizing News</h2>
+            <p class="section-subtitle">Experience news like never before with AI-powered personalization and cutting-edge technology that adapts to your lifestyle</p>
+        </div>
+    </section>
+
+    <!-- Welcome Screen Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="mockup-content">
+                    <h3>Welcome Experience</h3>
+                    <p>A seamless onboarding journey that welcomes users back with personalized greetings and intuitive login options.</p>
+                    <ul class="mockup-features">
+                        <li>Social login integration</li>
+                        <li>Remember user preferences</li>
+                        <li>Secure authentication</li>
+                        <li>Clean, modern interface</li>
+                    </ul>
+                </div>
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">Welcome Screen</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Feed Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">News Feed</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mockup-content">
+                    <h3>Intelligent News Feed</h3>
+                    <p>Stay informed with our AI-curated news feed that learns your preferences and delivers the most relevant stories.</p>
+                    <ul class="mockup-features">
+                        <li>Real-time trending topics</li>
+                        <li>Personalized content curation</li>
+                        <li>Multiple news sources</li>
+                        <li>Category-based browsing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Article Detail Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="mockup-content">
+                    <h3>Immersive Reading Experience</h3>
+                    <p>Dive deep into stories with our beautifully designed article reader that prioritizes readability and engagement.</p>
+                    <ul class="mockup-features">
+                        <li>Full-screen reading mode</li>
+                        <li>Social engagement metrics</li>
+                        <li>Easy sharing options</li>
+                        <li>Bookmark functionality</li>
+                    </ul>
+                </div>
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">Article Detail</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest News Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">Latest News</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mockup-content">
+                    <h3>Smart Categorization</h3>
+                    <p>Browse news by categories with our intelligent filtering system that organizes content for easy discovery.</p>
+                    <ul class="mockup-features">
+                        <li>Dynamic category tabs</li>
+                        <li>Timestamp tracking</li>
+                        <li>Cross-category recommendations</li>
+                        <li>Personalized topic suggestions</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notifications Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="mockup-content">
+                    <h3>Smart Notifications</h3>
+                    <p>Stay updated with intelligent notifications from trusted news sources, delivered at the perfect time.</p>
+                    <ul class="mockup-features">
+                        <li>Multi-source aggregation</li>
+                        <li>Breaking news alerts</li>
+                        <li>Customizable frequency</li>
+                        <li>Priority source filtering</li>
+                    </ul>
+                </div>
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">Notifications</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- News Sources Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">News Sources</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mockup-content">
+                    <h3>Curate Your Sources</h3>
+                    <p>Choose from over 1500 trusted news sources worldwide and customize your news experience.</p>
+                    <ul class="mockup-features">
+                        <li>1500+ global news sources</li>
+                        <li>Easy follow/unfollow system</li>
+                        <li>Source credibility ratings</li>
+                        <li>Personalized recommendations</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Topics Selection Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="mockup-content">
+                    <h3>Topic Personalization</h3>
+                    <p>Select your interests and let our AI learn your preferences to deliver perfectly curated content.</p>
+                    <ul class="mockup-features">
+                        <li>Smart topic suggestions</li>
+                        <li>Interest-based filtering</li>
+                        <li>Dynamic content adaptation</li>
+                        <li>Multi-topic exploration</li>
+                    </ul>
+                </div>
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">Topics Selection</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Screen Mockup -->
+    <section class="section">
+        <div class="container">
+            <div class="mockup-section">
+                <div class="phone-container">
+                    <div class="phone-mockup">
+                        <div class="phone-notch"></div>
+                        <div class="phone-screen">
+                            <div class="screen-placeholder">Success Screen</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mockup-content">
+                    <h3>Ready to Explore</h3>
+                    <p>Your personalized news experience is ready. Welcome to the future of intelligent news consumption.</p>
+                    <ul class="mockup-features">
+                        <li>Account setup complete</li>
+                        <li>Preferences saved</li>
+                        <li>AI learning initiated</li>
+                        <li>Ready for exploration</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Overview -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Powerful Features</h2>
+            <p class="section-subtitle">Discover what makes Newsly the smartest news app ever created with revolutionary technology</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3 class="feature-title">AI-Powered Personalization</h3>
+                    <p class="feature-desc">Our advanced AI learns your reading habits and preferences to deliver perfectly curated content.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌐</div>
+                    <h3 class="feature-title">1500+ News Sources</h3>
+                    <p class="feature-desc">Access content from over 1500 trusted news sources worldwide, all in one place.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Fake News Detection</h3>
+                    <p class="feature-desc">Advanced algorithms identify and filter out misinformation, ensuring you get only reliable news.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3 class="feature-title">Multilingual Support</h3>
+                    <p class="feature-desc">Read news in your preferred language with real-time translation capabilities.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎧</div>
+                    <h3 class="feature-title">Podcast Integration</h3>
+                    <p class="feature-desc">Listen to news podcasts and audio summaries while on the go.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Real-Time Alerts</h3>
+                    <p class="feature-desc">Get instant notifications for breaking news and stories that matter to you.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Trusted by Millions</h2>
+            <p class="section-subtitle">Join the global community that trusts Newsly for their daily news consumption</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">10M+</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1500+</div>
+                    <div class="stat-label">News Sources</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Accuracy Rate</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Advanced Technology</h2>
+            <p class="section-subtitle">Built with cutting-edge AI and machine learning technologies for the ultimate news experience</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🧠</div>
+                    <h3 class="feature-title">Neural Networks</h3>
+                    <p class="feature-desc">Deep learning algorithms that understand context and user preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Sentiment Analysis</h3>
+                    <p class="feature-desc">Advanced sentiment analysis to understand the tone and bias of news articles.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3 class="feature-title">Smart Search</h3>
+                    <p class="feature-desc">Intelligent search that understands natural language queries.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3 class="feature-title">Real-time Processing</h3>
+                    <p class="feature-desc">Lightning-fast content processing and delivery system.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- User Experience Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Designed for You</h2>
+            <p class="section-subtitle">Every detail crafted for the perfect news reading experience with modern design principles</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Beautiful Design</h3>
+                    <p class="feature-desc">Clean, modern interface that makes reading news a pleasure.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-desc">Optimized performance ensures instant loading and smooth scrolling.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3 class="feature-title">Privacy First</h3>
+                    <p class="feature-desc">Your data is protected with enterprise-grade security measures.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌙</div>
+                    <h3 class="feature-title">Dark Mode</h3>
+                    <p class="feature-desc">Easy on the eyes with beautiful dark mode support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Global Reach Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Global Coverage</h2>
+            <p class="section-subtitle">Stay informed about what's happening around the world with comprehensive coverage</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">195</div>
+                    <div class="stat-label">Countries Covered</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">News Updates</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">1M+</div>
+                    <div class="stat-label">Articles Daily</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">5★</div>
+                    <div class="stat-label">App Store Rating</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Innovation Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Innovation at Its Core</h2>
+            <p class="section-subtitle">Pushing the boundaries of what a news app can be with revolutionary features</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Future Ready</h3>
+                    <p class="feature-desc">Built with tomorrow's technology, available today.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Continuous Learning</h3>
+                    <p class="feature-desc">AI that gets smarter with every interaction.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌟</div>
+                    <h3 class="feature-title">Award Winning</h3>
+                    <p class="feature-desc">Recognized by industry leaders for innovation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💡</div>
+                    <h3 class="feature-title">Smart Insights</h3>
+                    <p class="feature-desc">Get deeper understanding with AI-powered insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Performance Metrics -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Unmatched Performance</h2>
+            <p class="section-subtitle">Experience the fastest, most reliable news app with industry-leading metrics</p>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">0.3s</div>
+                    <div class="stat-label">Load Time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">99.9%</div>
+                    <div class="stat-label">Uptime</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">98%</div>
+                    <div class="stat-label">User Satisfaction</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">2TB</div>
+                    <div class="stat-label">Data Processed Daily</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="section cta-section">
+        <div class="container">
+            <h2 class="section-title">The Future of News is Here</h2>
+            <p class="section-subtitle">Join millions of users who have already discovered the smarter way to stay informed with revolutionary AI technology</p>
+            <a href="#" class="cta-button">Experience Newsly</a>
+        </div>
+    </section>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.querySelector('.particles');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Advanced scroll progress with glow effect
+        gsap.to(".scroll-progress", {
+            width: "100%",
+            ease: "none",
+            scrollTrigger: {
+                trigger: "body",
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 1,
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    document.querySelector('.scroll-progress').style.boxShadow = 
+                        `0 0 ${20 * progress}px rgba(255,255,255,${0.5 + progress * 0.5})`;
+                }
+            }
+        });
+
+        // Enhanced hero animations with stagger
+        const heroTl = gsap.timeline();
+        heroTl
+            .to(".logo", {
+                duration: 2,
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                ease: "elastic.out(1, 0.8)",
+                rotation: 360
+            })
+            .to(".tagline", {
+                duration: 1.5,
+                opacity: 1,
+                y: 0,
+                ease: "power3.out",
+                letterSpacing: "3px"
+            }, "-=1")
+            .to(".hero-cta", {
+                duration: 1.2,
+                opacity: 1,
+                y: 0,
+                ease: "power3.out"
+            }, "-=0.8");
+
+        // Advanced section titles with line animation
+        gsap.utils.toArray(".section-title").forEach(title => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: title,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+            
+            tl.fromTo(title, 
+                {opacity: 0, y: 50, scale: 0.9},
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    duration: 1.5,
+                    ease: "power3.out"
+                }
+            )
+            .to(title.querySelector('::after') || title, {
+                opacity: 1,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.5");
+        });
+
+        // Subtitle animations with blur effect
+        gsap.utils.toArray(".section-subtitle").forEach(subtitle => {
+            gsap.fromTo(subtitle, 
+                {opacity: 0, y: 30, filter: "blur(10px)"},
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    filter: "blur(0px)",
+                    duration: 1.2,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: subtitle,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Advanced phone mockup animations with 3D effects
+        gsap.utils.toArray(".phone-mockup").forEach(phone => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: phone,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+            
+            tl.fromTo(phone, 
+                {
+                    opacity: 0, 
+                    y: 100, 
+                    rotationY: 45,
+                    rotationX: 20,
+                    scale: 0.8
+                },
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    rotationY: 0,
+                    rotationX: 0,
+                    scale: 1,
+                    duration: 2,
+                    ease: "power3.out"
+                }
+            )
+            .to(phone, {
+                y: -10,
+                duration: 2,
+                ease: "power1.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+        // Mockup content with typewriter effect
+        gsap.utils.toArray(".mockup-content").forEach(content => {
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: content,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+            
+            tl.fromTo(content, 
+                {opacity: 0, x: -100, filter: "blur(5px)"},
+                {
+                    opacity: 1, 
+                    x: 0, 
+                    filter: "blur(0px)",
+                    duration: 1.5,
+                    ease: "power3.out"
+                }
+            );
+            
+            // Animate list items individually
+            const listItems = content.querySelectorAll('.mockup-features li');
+            listItems.forEach((item, index) => {
+                tl.fromTo(item,
+                    {opacity: 0, x: -30},
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 0.8,
+                        ease: "power2.out"
+                    },
+                    `-=${0.8 - index * 0.1}`
+                );
+            });
+        });
+
+        // Enhanced feature cards with advanced hover effects
+        gsap.utils.toArray(".feature-card").forEach((card, index) => {
+            const icon = card.querySelector('.feature-icon');
+            const title = card.querySelector('.feature-title');
+            const desc = card.querySelector('.feature-desc');
+            
+            const tl = gsap.timeline({
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    end: "bottom 15%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+            
+            tl.fromTo(card, 
+                {opacity: 0, y: 80, scale: 0.8},
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    duration: 1.2,
+                    ease: "power3.out",
+                    delay: index * 0.1
+                }
+            )
+            .fromTo(icon,
+                {opacity: 0, y: 20, scale: 0.5},
+                {
+                    opacity: 1,
+                    y: 0,
+                    scale: 1,
+                    duration: 0.8,
+                    ease: "elastic.out(1, 0.75)"
+                },
+                "-=0.8"
+            )
+            .fromTo(title,
+                {opacity: 0, y: 20},
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power2.out"
+                },
+                "-=0.4"
+            )
+            .fromTo(desc,
+                {opacity: 0, y: 20},
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.6,
+                    ease: "power2.out"
+                },
+                "-=0.2"
+            );
+            
+            // Advanced hover animations
+            card.addEventListener("mouseenter", () => {
+                gsap.to(card, {
+                    duration: 0.4, 
+                    y: -20, 
+                    scale: 1.05, 
+                    rotationY: 5,
+                    boxShadow: "0 30px 80px rgba(255,255,255,0.1)",
+                    ease: "power2.out"
+                });
+                gsap.to(icon, {
+                    duration: 0.4,
+                    scale: 1.2,
+                    rotation: 10,
+                    ease: "power2.out"
+                });
+            });
+            
+            card.addEventListener("mouseleave", () => {
+                gsap.to(card, {
+                    duration: 0.4, 
+                    y: 0, 
+                    scale: 1, 
+                    rotationY: 0,
+                    boxShadow: "none",
+                    ease: "power2.out"
+                });
+                gsap.to(icon, {
+                    duration: 0.4,
+                    scale: 1,
+                    rotation: 0,
+                    ease: "power2.out"
+                });
+            });
+        });
+
+        // Advanced stats animations with counter effect
+        gsap.utils.toArray(".stat-item").forEach((item, index) => {
+            const number = item.querySelector('.stat-number');
+            const originalText = number.textContent;
+            
+            gsap.fromTo(item, 
+                {opacity: 0, y: 50, scale: 0.8},
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    duration: 1.5,
+                    ease: "power3.out",
+                    delay: index * 0.2,
+                    scrollTrigger: {
+                        trigger: item,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse",
+                        onStart: () => {
+                            // Counter animation
+                            if (originalText.includes('+') || originalText.includes('%') || originalText.includes('★')) {
+                                const numValue = parseFloat(originalText);
+                                gsap.fromTo({value: 0}, 
+                                    {value: numValue},
+                                    {
+                                        duration: 2,
+                                        ease: "power2.out",
+                                        onUpdate: function() {
+                                            number.textContent = Math.floor(this.targets()[0].value) + originalText.replace(/[\d.]/g, '');
+                                        },
+                                        onComplete: () => {
+                                            number.textContent = originalText;
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    }
+                }
+            );
+            
+            gsap.fromTo(number, 
+                {opacity: 0, scale: 0.3},
+                {
+                    opacity: 1, 
+                    scale: 1,
+                    duration: 2,
+                    ease: "elastic.out(1, 0.75)",
+                    scrollTrigger: {
+                        trigger: number,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+        });
+
+        // Enhanced CTA button with magnetic effect
+        const ctaButton = document.querySelector('.cta-button');
+        if (ctaButton) {
+            gsap.fromTo(ctaButton, 
+                {opacity: 0, y: 50, scale: 0.8},
+                {
+                    opacity: 1, 
+                    y: 0, 
+                    scale: 1,
+                    duration: 1.5,
+                    ease: "elastic.out(1, 0.75)",
+                    scrollTrigger: {
+                        trigger: ctaButton,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                }
+            );
+            
+            // Magnetic hover effect
+            ctaButton.addEventListener('mousemove', (e) => {
+                const rect = ctaButton.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                gsap.to(ctaButton, {
+                    duration: 0.3,
+                    x: x * 0.3,
+                    y: y * 0.3,
+                    ease: "power2.out"
+                });
+            });
+            
+            ctaButton.addEventListener('mouseleave', () => {
+                gsap.to(ctaButton, {
+                    duration: 0.5,
+                    x: 0,
+                    y: 0,
+                    ease: "elastic.out(1, 0.75)"
+                });
+            });
+        }
+
+        // Advanced parallax effects
+        gsap.utils.toArray(".phone-mockup").forEach(phone => {
+            gsap.to(phone, {
+                y: -100,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: phone,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 2
+                }
+            });
+        });
+
+        // Intersection Observer for advanced animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -10% 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate-in');
+                } else {
+                    entry.target.classList.remove('animate-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll enhancement
+        document.documentElement.style.scrollBehavior = 'smooth';
+        
+        // Add loading states
+        window.addEventListener('load', () => {
+            gsap.to('body', {opacity: 1, duration: 0.5});
+        });
+    </script>
+</body>
+</html>
