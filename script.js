@@ -1,14 +1,27 @@
-        gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger);
 
-        // Create floating particles
+        // Create enhanced floating particles with Apple-like aesthetics
         function createParticles() {
             const particlesContainer = document.querySelector('.particles');
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 30; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                
+                // Add variety to particles
+                const size = Math.random() * 3 + 1;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                
+                // Add subtle color variations
+                const hue = Math.random() * 40 + 200; // Blue to purple range
+                const opacity = Math.random() * 0.3 + 0.1;
+                particle.style.backgroundColor = `hsla(${hue}, 100%, 70%, ${opacity})`;
+                particle.style.boxShadow = `0 0 ${size * 2}px hsla(${hue}, 100%, 70%, ${opacity})`;
+                
                 particlesContainer.appendChild(particle);
             }
         }
@@ -31,30 +44,54 @@
             }
         });
 
-        // Enhanced hero animations with stagger
+        // Apple-style hero animations with refined timing and effects
         const heroTl = gsap.timeline();
+        
+        // Animate company logo first
         heroTl
-            .to(".logo", {
-                duration: 2,
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                ease: "elastic.out(1, 0.8)",
-                rotation: 360
-            })
-            .to(".tagline", {
-                duration: 1.5,
-                opacity: 1,
-                y: 0,
-                ease: "power3.out",
-                letterSpacing: "3px"
-            }, "-=1")
-            .to(".hero-cta", {
+            .to(".company-logo", {
                 duration: 1.2,
                 opacity: 1,
                 y: 0,
                 ease: "power3.out"
+            })
+            // Then animate the main logo with a subtle reveal
+            .to(".logo", {
+                duration: 1.8,
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                ease: "power2.out",
+                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+            }, "-=0.5")
+            // Animate tagline with a subtle blur effect
+            .to(".tagline", {
+                duration: 1.2,
+                opacity: 1,
+                y: 0,
+                filter: "blur(0px)",
+                ease: "power3.out",
+                letterSpacing: "5px"
+            }, "-=1.2")
+            // Animate hero CTA with a word-by-word reveal
+            .to(".hero-cta", {
+                duration: 1.5,
+                opacity: 1,
+                y: 0,
+                ease: "power2.out"
             }, "-=0.8");
+            
+        // Add subtle parallax effect to hero section
+        gsap.to(".hero .container", {
+            y: -80,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero",
+                start: "top top",
+                end: "bottom top",
+                scrub: true
+            }
+        });
 
         // Advanced section titles with line animation
         gsap.utils.toArray(".section-title").forEach(title => {
@@ -104,8 +141,13 @@
             );
         });
 
-        // Advanced phone mockup animations with 3D effects
-        gsap.utils.toArray(".phone-mockup").forEach(phone => {
+        // Apple-style iPhone 15 mockup animations with dynamic 3D effects
+        gsap.utils.toArray(".phone-mockup").forEach((phone, index) => {
+            const screen = phone.querySelector('.phone-screen');
+            const notch = phone.querySelector('.phone-notch');
+            const image = phone.querySelector('img');
+            
+            // Create a more sophisticated entrance animation
             const tl = gsap.timeline({
                 scrollTrigger: {
                     trigger: phone,
@@ -115,13 +157,15 @@
                 }
             });
             
+            // Initial state - phone is rotated and scaled down
             tl.fromTo(phone, 
                 {
                     opacity: 0, 
                     y: 100, 
-                    rotationY: 45,
-                    rotationX: 20,
-                    scale: 0.8
+                    rotationY: 30,
+                    rotationX: 15,
+                    scale: 0.8,
+                    filter: "brightness(0.5) blur(10px)"
                 },
                 {
                     opacity: 1, 
@@ -129,17 +173,57 @@
                     rotationY: 0,
                     rotationX: 0,
                     scale: 1,
-                    duration: 2,
+                    filter: "brightness(1) blur(0px)",
+                    duration: 1.8,
                     ease: "power3.out"
                 }
             )
+            // Animate the notch with a subtle glow effect
+            .fromTo(notch, 
+                { opacity: 0, scale: 0.8 },
+                { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" },
+                "-=1.4"
+            )
+            // Animate the screen content with a subtle scale and brightness effect
+            .fromTo(image, 
+                { opacity: 0, scale: 1.1, filter: "brightness(0.7)" },
+                { opacity: 1, scale: 1, filter: "brightness(1)", duration: 1.2, ease: "power2.out" },
+                "-=1.2"
+            )
+            // Add a subtle floating animation
             .to(phone, {
-                y: -10,
-                duration: 2,
+                y: "-=15",
+                duration: 2.5,
                 ease: "power1.inOut",
                 yoyo: true,
                 repeat: -1
             });
+            
+            // Add interactive rotation on mouse movement for each phone
+            const section = phone.closest('.section');
+            if (section) {
+                section.addEventListener('mousemove', (e) => {
+                    const rect = section.getBoundingClientRect();
+                    const mouseX = (e.clientX - rect.left) / rect.width - 0.5;
+                    const mouseY = (e.clientY - rect.top) / rect.height - 0.5;
+                    
+                    gsap.to(phone, {
+                        rotationY: mouseX * 10,
+                        rotationX: -mouseY * 10,
+                        duration: 0.5,
+                        ease: "power2.out"
+                    });
+                });
+                
+                section.addEventListener('mouseleave', () => {
+                    gsap.to(phone, {
+                        rotationY: 0,
+                        rotationX: 0,
+                        duration: 1,
+                        ease: "elastic.out(1, 0.75)"
+                    });
+                });
+            }
         });
 
         // Mockup content with typewriter effect
