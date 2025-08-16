@@ -503,3 +503,800 @@ gsap.registerPlugin(ScrollTrigger);
         window.addEventListener('load', () => {
             gsap.to('body', {opacity: 1, duration: 0.5});
         });
+
+        // New Enhanced Sections Animations
+
+        // Animate AI Brain
+        gsap.to(".brain-core", {
+            rotation: 360,
+            duration: 15,
+            repeat: -1,
+            ease: "none"
+        });
+
+        // Animate neural nodes
+        gsap.utils.toArray(".neural-node").forEach((node, i) => {
+            gsap.to(node, {
+                scale: 1.5,
+                opacity: 0.8,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                delay: i * 0.3,
+                ease: "power2.inOut"
+            });
+        });
+
+        // Animate data streams
+        gsap.utils.toArray(".stream").forEach((stream, i) => {
+            gsap.to(stream, {
+                opacity: 1,
+                duration: 2,
+                repeat: -1,
+                yoyo: true,
+                delay: i * 0.7,
+                ease: "power2.inOut"
+            });
+        });
+
+        // Animate vision cards
+        gsap.utils.toArray(".vision-card-new").forEach((card, i) => {
+            gsap.fromTo(card, {
+                x: i % 2 === 0 ? -100 : 100,
+                opacity: 0,
+                scale: 0.8
+            }, {
+                x: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate advantage cards with stats
+        gsap.utils.toArray(".advantage-card-new").forEach((card, i) => {
+            const stat = card.querySelector('.advantage-stat');
+
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1,
+                delay: i * 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+
+            // Animate stat numbers
+            if (stat) {
+                gsap.fromTo(stat, {
+                    scale: 0,
+                    rotation: -180
+                }, {
+                    scale: 1,
+                    rotation: 0,
+                    duration: 1.5,
+                    delay: i * 0.15 + 0.5,
+                    ease: "elastic.out(1, 0.75)",
+                    scrollTrigger: {
+                        trigger: stat,
+                        start: "top 80%",
+                        end: "bottom 20%",
+                        toggleActions: "play none none reverse"
+                    }
+                });
+            }
+        });
+
+        // Animate innovative features with hover effects
+        gsap.utils.toArray(".feature-card-new").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 100,
+                opacity: 0,
+                rotationY: 20
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationY: 0,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate market stats with counter effect
+        gsap.utils.toArray(".stat-number-new").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 2.5,
+                delay: i * 0.3,
+                ease: "power2.out",
+                onUpdate: function() {
+                    number.textContent = Math.floor(this.targets()[0].value * 10) / 10;
+                },
+                onComplete: () => {
+                    number.textContent = targetValue;
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate chart bars
+        gsap.utils.toArray(".chart-bar").forEach((bar, i) => {
+            const fill = bar.querySelector('.bar-fill');
+            const height = bar.getAttribute('data-height');
+
+            gsap.fromTo(fill, {
+                height: '0%'
+            }, {
+                height: height + '%',
+                duration: 2,
+                delay: i * 0.3,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate expansion phases
+        gsap.utils.toArray(".phase-new").forEach((phase, i) => {
+            gsap.fromTo(phase, {
+                x: -100,
+                opacity: 0
+            }, {
+                x: 0,
+                opacity: 1,
+                duration: 1,
+                delay: i * 0.4,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: phase,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate metric cards
+        gsap.utils.toArray(".metric-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 50,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate benefit stat cards
+        gsap.utils.toArray(".benefit-stat-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 100,
+                opacity: 0,
+                rotationY: 15
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationY: 0,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate scale bars
+        gsap.utils.toArray(".scale-bar").forEach((bar, i) => {
+            const scale = bar.getAttribute('data-scale');
+
+            gsap.fromTo(bar, {
+                width: '0%'
+            }, {
+                width: scale + '%',
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate holographic buildings
+        gsap.utils.toArray(".holo-building").forEach((building, i) => {
+            gsap.to(building, {
+                y: -20,
+                duration: 3 + i * 0.5,
+                repeat: -1,
+                yoyo: true,
+                ease: "power2.inOut"
+            });
+        });
+
+        // Animate floating elements
+        gsap.utils.toArray(".float-element").forEach((element, i) => {
+            gsap.to(element, {
+                y: -30,
+                rotation: 5,
+                duration: 4 + i,
+                repeat: -1,
+                yoyo: true,
+                ease: "power2.inOut"
+            });
+        });
+
+        // Animate conclusion text
+        gsap.fromTo(".conclusion-title-new", {
+            y: 80,
+            opacity: 0,
+            scale: 0.8
+        }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".conclusion-title-new",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        gsap.fromTo(".conclusion-subtitle-new", {
+            y: 50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            delay: 0.3,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".conclusion-subtitle-new",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        gsap.fromTo(".conclusion-description-new", {
+            y: 40,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            delay: 0.6,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".conclusion-description-new",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        gsap.fromTo(".cta-button-new", {
+            y: 50,
+            opacity: 0,
+            scale: 0.8
+        }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            delay: 0.9,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+                trigger: ".cta-button-new",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // Redesigned Sections Animations
+
+        // Future of News Hero Animations
+        gsap.utils.toArray(".future-stat-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 100,
+                opacity: 0,
+                scale: 0.8
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate future stats counter
+        gsap.utils.toArray(".stat-number-future").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 3,
+                delay: i * 0.3,
+                ease: "power2.out",
+                onUpdate: function() {
+                    if (targetValue >= 100) {
+                        number.textContent = Math.floor(this.targets()[0].value);
+                    } else {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    }
+                },
+                onComplete: () => {
+                    number.textContent = targetValue;
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate progress rings in future stats
+        gsap.utils.toArray(".progress-fill").forEach((circle, i) => {
+            const progress = circle.getAttribute('data-progress');
+            const circumference = 2 * Math.PI * 35;
+            const offset = circumference - (progress / 100) * circumference;
+
+            gsap.fromTo(circle, {
+                strokeDashoffset: circumference
+            }, {
+                strokeDashoffset: offset,
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: circle,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Expansion Roadmap Timeline Progress
+        gsap.to(".timeline-progress", {
+            width: "100%",
+            duration: 3,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".timeline-container",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // Animate timeline nodes
+        gsap.utils.toArray(".timeline-node").forEach((node, i) => {
+            gsap.fromTo(node, {
+                scale: 0,
+                opacity: 0
+            }, {
+                scale: 1,
+                opacity: 1,
+                duration: 0.8,
+                delay: i * 0.3,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: node,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Expansion Roadmap Quarter Cards
+        gsap.utils.toArray(".quarter-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 150,
+                opacity: 0,
+                scale: 0.8
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.5,
+                delay: i * 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate quarter stats counter
+        gsap.utils.toArray(".stat-number-quarter").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 2.5,
+                delay: i * 0.4,
+                ease: "power2.out",
+                onUpdate: function() {
+                    if (targetValue >= 100) {
+                        number.textContent = Math.floor(this.targets()[0].value);
+                    } else {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    }
+                },
+                onComplete: () => {
+                    number.textContent = targetValue;
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate quarter progress bars
+        gsap.utils.toArray(".progress-fill").forEach((progress, i) => {
+            const progressValue = progress.getAttribute('data-progress');
+
+            gsap.fromTo(progress, {
+                width: "0%"
+            }, {
+                width: progressValue + "%",
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: progress,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+
+
+        // Floating elements animation
+        gsap.utils.toArray(".float-element").forEach((element, i) => {
+            gsap.to(element, {
+                y: -30,
+                duration: 3,
+                delay: i * 0.5,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+        // Screen content animations
+        gsap.utils.toArray(".data-stream, .news-feed, .analytics-chart").forEach((stream, i) => {
+            gsap.to(stream, {
+                x: "100%",
+                duration: 2,
+                delay: i * 0.3,
+                ease: "none",
+                repeat: -1
+            });
+        });
+
+        // Hologram lines animation
+        gsap.utils.toArray(".hologram-line").forEach((line, i) => {
+            gsap.to(line, {
+                scaleX: 1.2,
+                opacity: 0.8,
+                duration: 2,
+                delay: i * 0.5,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+        // AI assistant pulse animation
+        gsap.to(".ai-pulse", {
+            scale: 2,
+            opacity: 0,
+            duration: 3,
+            ease: "power2.out",
+            repeat: -1
+        });
+
+        // Digital globe rotation
+        gsap.to(".digital-globe", {
+            rotation: 360,
+            duration: 30,
+            ease: "none",
+            repeat: -1
+        });
+
+        // Data points pulse animation
+        gsap.utils.toArray(".data-point").forEach((point, i) => {
+            gsap.to(point, {
+                scale: 1.5,
+                opacity: 1,
+                duration: 1.5,
+                delay: i * 0.6,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+
+
+        // Market Opportunity Statistics Analysis Animations
+        gsap.utils.toArray(".stat-analysis-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 120,
+                opacity: 0,
+                rotationY: 20
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationY: 0,
+                duration: 1.5,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate statistics numbers
+        gsap.utils.toArray(".stat-number").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 3,
+                delay: i * 0.3,
+                ease: "power2.out",
+                onUpdate: function() {
+                    if (targetValue >= 100) {
+                        number.textContent = Math.floor(this.targets()[0].value);
+                    } else {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    }
+                },
+                onComplete: () => {
+                    number.textContent = targetValue;
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate chart bars
+        gsap.utils.toArray(".chart-bar").forEach((bar, i) => {
+            const height = bar.style.height;
+            
+            gsap.fromTo(bar, {
+                height: 0
+            }, {
+                height: height,
+                duration: 1.5,
+                delay: i * 0.1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate line charts
+        gsap.utils.toArray(".line-path").forEach((path, i) => {
+            gsap.fromTo(path, {
+                strokeDasharray: "0 1000"
+            }, {
+                strokeDasharray: "1000 0",
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: path,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate pie charts
+        gsap.utils.toArray(".pie-chart").forEach((pie, i) => {
+            gsap.fromTo(pie, {
+                transform: "rotate(0deg) scale(0)"
+            }, {
+                transform: "rotate(360deg) scale(1)",
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: pie,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate area charts
+        gsap.utils.toArray(".area-path, .area-line").forEach((area, i) => {
+            gsap.fromTo(area, {
+                strokeDasharray: "0 1000",
+                fillOpacity: 0
+            }, {
+                strokeDasharray: "1000 0",
+                fillOpacity: 1,
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: area,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate segmentation cards
+        gsap.utils.toArray(".segment-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                x: i % 2 === 0 ? -100 : 100,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                x: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate enhanced insights
+        gsap.utils.toArray(".insight-card.primary, .insight-card.secondary").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate dashboard header
+        gsap.fromTo(".stats-dashboard-header", {
+            y: -50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".stats-dashboard-header",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // Animate analysis header
+        gsap.fromTo(".analysis-header", {
+            y: 50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".analysis-header",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
