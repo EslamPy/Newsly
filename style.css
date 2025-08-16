@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 * {
             margin: 0;
             padding: 0;
@@ -2900,7 +2899,6 @@
             .insight-card.primary, .insight-card.secondary {
                 padding: 2rem 1.5rem;
             }
-=======
 * {
             margin: 0;
             padding: 0;
@@ -3591,5 +3589,4 @@
                 opacity: 1;
                 transform: scale(1.2);
             }
->>>>>>> dc90ab75d21560257c5d8de85bc17f0a453199cd
         }
