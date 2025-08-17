@@ -222,7 +222,7 @@ body {
 }
 
 .logo-image {
-    width: 310px;
+    width: 400px;
     height: 170;
     object-fit: contain;
     z-index: 2;
@@ -1756,7 +1756,7 @@ body {
     }
 
     .app-logo {
-        width: 140px;
+        width: 280px;
         height: 140px;
     }
 
