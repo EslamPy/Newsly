@@ -56,7 +56,7 @@ gsap.registerPlugin(ScrollTrigger);
                 ease: "power3.out"
             })
             // Then animate the main logo with a subtle reveal
-            .to(".app-logo", {
+            .to(".heart-pulse", {
                 duration: 1.8,
                 opacity: 1,
                 y: 0,

@@ -194,6 +194,45 @@ body {
     gap: 1rem;
 }
 
+/* Hero section specific styles for the animated logo */
+.hero .thank-you-visual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    height: 200px;
+    margin-bottom: 1rem;
+}
+
+.hero .gratitude-animation {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero .heart-pulse {
+    font-size: 6rem;
+    color: #2997FF;
+    z-index: 3;
+    position: relative;
+    animation: heartBeat 2s ease-in-out infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero .thank-you-logo {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    filter:
+        drop-shadow(0 0 30px rgba(41, 151, 255, 0.6))
+        drop-shadow(0 0 60px rgba(41, 151, 255, 0.4))
+        brightness(1.1);
+    transition: all 0.3s ease;
+}
+
 .app-logo {
     position: relative;
     width: 280px;
