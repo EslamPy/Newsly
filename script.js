@@ -1300,3 +1300,214 @@ gsap.registerPlugin(ScrollTrigger);
                 toggleActions: "play none none reverse"
             }
         });
+
+        // New Hero Branding Animations
+        gsap.to(".company-branding", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.5,
+            ease: "power3.out"
+        });
+
+        gsap.to(".app-logo", {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.5,
+            delay: 1,
+            ease: "power2.out"
+        });
+
+        gsap.to(".app-name", {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 1.2,
+            delay: 1.3,
+            ease: "power2.out"
+        });
+
+        // Impact Statistics Animations
+        gsap.utils.toArray(".impact-stat-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 100,
+                opacity: 0,
+                scale: 0.8
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Impact Numbers Counter Animation
+        gsap.utils.toArray(".impact-number").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 2.5,
+                delay: i * 0.3,
+                ease: "power2.out",
+                onUpdate: function() {
+                    if (targetValue === 4.8) {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    } else if (targetValue === 2.5) {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    } else if (targetValue === 99.2) {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    } else {
+                        number.textContent = Math.floor(this.targets()[0].value).toLocaleString();
+                    }
+                },
+                onComplete: () => {
+                    if (targetValue === 4.8) {
+                        number.textContent = "4.8";
+                    } else if (targetValue === 2.5) {
+                        number.textContent = "2.5";
+                    } else if (targetValue === 99.2) {
+                        number.textContent = "99.2";
+                    } else {
+                        number.textContent = targetValue.toLocaleString();
+                    }
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Pricing Comparison Animations
+        gsap.utils.toArray(".plan-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: card.classList.contains('featured') ? 1.05 : 1,
+                duration: 1.2,
+                delay: i * 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Privacy Features Animation
+        gsap.utils.toArray(".privacy-feature").forEach((feature, i) => {
+            gsap.fromTo(feature, {
+                y: 60,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: i * 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: feature,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Chart Bars Animation
+        gsap.utils.toArray(".chart-bar").forEach((bar, i) => {
+            const height = bar.getAttribute('data-height');
+
+            gsap.fromTo(bar, {
+                height: '0%'
+            }, {
+                height: height + '%',
+                duration: 1.5,
+                delay: i * 0.3,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Solution Cards Animation
+        gsap.utils.toArray(".solution-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                rotationY: 15
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationY: 0,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Thank You Section Animation
+        gsap.fromTo(".thank-you-title", {
+            y: 80,
+            opacity: 0,
+            scale: 0.8
+        }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".thank-you-title",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        gsap.fromTo(".final-cta-button", {
+            y: 50,
+            opacity: 0,
+            scale: 0.8
+        }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            delay: 0.5,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+                trigger: ".final-cta-button",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
