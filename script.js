@@ -56,14 +56,21 @@ gsap.registerPlugin(ScrollTrigger);
                 ease: "power3.out"
             })
             // Then animate the main logo with a subtle reveal
-            .to(".logo", {
+            .to(".app-logo", {
                 duration: 1.8,
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                ease: "power2.out",
-                clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)"
+                ease: "power2.out"
             }, "-=0.5")
+            // Animate app name
+            .to(".app-name", {
+                duration: 1.2,
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                ease: "power2.out"
+            }, "-=1.0")
             // Animate tagline with a subtle blur effect
             .to(".tagline", {
                 duration: 1.2,
@@ -1310,23 +1317,7 @@ gsap.registerPlugin(ScrollTrigger);
             ease: "power3.out"
         });
 
-        gsap.to(".app-logo", {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.5,
-            delay: 1,
-            ease: "power2.out"
-        });
 
-        gsap.to(".app-name", {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.2,
-            delay: 1.3,
-            ease: "power2.out"
-        });
 
         // Impact Statistics Animations
         gsap.utils.toArray(".impact-stat-card").forEach((card, i) => {
