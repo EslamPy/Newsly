@@ -3668,3 +3668,476 @@ body {
     color: rgba(255, 255, 255, 0.6);
     font-weight: 500;
 }
+
+/* Interactive World Map Section */
+.world-map-section {
+    padding: 4rem 0;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.world-map-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.03)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.map-header {
+    text-align: center;
+    margin-bottom: 3rem;
+    position: relative;
+    z-index: 2;
+}
+
+.map-header h3 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.map-header p {
+    font-size: 1.1rem;
+    color: #B8B8B8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.map-container {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.world-map-bg {
+    position: relative;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.world-map-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.world-map-image:hover {
+    transform: scale(1.02);
+}
+
+.map-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 153, 204, 0.1));
+    border-radius: 20px;
+    pointer-events: none;
+}
+
+/* Country Markers */
+.country-markers {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+}
+
+.country-marker {
+    position: absolute;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.country-marker:hover {
+    transform: scale(1.1);
+}
+
+.country-marker:hover .marker-pulse {
+    animation: pulse 2s infinite;
+}
+
+.country-marker:hover .country-popup {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-10px);
+}
+
+/* Marker Positioning - Precisely aligned with Map.png */
+.country-marker.egypt {
+    top: 34%;
+    left: 50%;
+}
+
+.country-marker.jordan {
+    top: 30%;
+    left: 52.4%;
+}
+
+.country-marker.lebanon {
+    top: 47%;
+    left: 61%;
+}
+
+.country-marker.italy {
+    top: 22%;
+    left: 46%;
+}
+
+.country-marker.france {
+    top: 19%;
+    left: 43%;
+}
+
+.country-marker.england {
+    top: 14%;
+    left: 42%;
+}
+
+.marker-pulse {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: rgba(0, 212, 255, 0.3);
+    border-radius: 50%;
+    top: -10px;
+    left: -10px;
+    animation: pulse 3s infinite;
+}
+
+.marker-dot {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
+    border-radius: 50%;
+    top: -6px;
+    left: -6px;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+}
+
+.marker-line {
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background: linear-gradient(to bottom, #00D4FF, transparent);
+    top: 6px;
+    left: -1px;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.5);
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Country Popup */
+.country-popup {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    width: 280px;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.country-popup::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 8px solid transparent;
+    border-bottom-color: rgba(26, 26, 46, 0.95);
+}
+
+.popup-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.country-flag {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.country-info h4 {
+    color: #FFFFFF;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.launch-phase {
+    color: #00D4FF;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.popup-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.popup-stat {
+    text-align: center;
+}
+
+.stat-value {
+    display: block;
+    color: #FFFFFF;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: #B8B8B8;
+    font-size: 0.8rem;
+}
+
+.popup-status {
+    text-align: center;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-badge.active {
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
+    color: #000000;
+}
+
+.status-badge.planning {
+    background: linear-gradient(135deg, #FF6B35, #F7931E);
+    color: #FFFFFF;
+}
+
+/* Launch Legend */
+.launch-legend {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(26, 26, 46, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    border-radius: 15px;
+    padding: 1.5rem;
+    z-index: 10;
+}
+
+.launch-legend h4 {
+    color: #FFFFFF;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    text-align: center;
+}
+
+.legend-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.legend-dot.phase-1 {
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
+}
+
+.legend-dot.phase-2 {
+    background: linear-gradient(135deg, #FF6B35, #F7931E);
+}
+
+.legend-dot.phase-3 {
+    background: linear-gradient(135deg, #9C27B0, #673AB7);
+}
+
+.legend-item span {
+    color: #B8B8B8;
+    font-size: 0.9rem;
+}
+
+/* Market Summary */
+.market-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.summary-card {
+    background: rgba(26, 26, 46, 0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #00D4FF, #0099CC);
+}
+
+.summary-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(0, 212, 255, 0.4);
+    box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+}
+
+.summary-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+.summary-content h4 {
+    color: #B8B8B8;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0 0 1rem 0;
+}
+
+.summary-number {
+    color: #FFFFFF;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.summary-label {
+    color: #B8B8B8;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .world-map-section {
+        padding: 2rem 0;
+    }
+    
+    .map-header h3 {
+        font-size: 2rem;
+    }
+    
+    .map-container {
+        padding: 0 1rem;
+    }
+    
+    .country-popup {
+        width: 250px;
+        padding: 1rem;
+    }
+    
+    .launch-legend {
+        position: relative;
+        top: auto;
+        right: auto;
+        margin: 2rem auto 0;
+        max-width: 300px;
+    }
+    
+    .market-summary {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .summary-card {
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .country-popup {
+        width: 220px;
+        padding: 0.75rem;
+    }
+    
+    .popup-stats {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+    
+    .summary-number {
+        font-size: 2rem;
+    }
+}
+
+

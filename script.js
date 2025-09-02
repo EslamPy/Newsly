@@ -1502,3 +1502,590 @@ gsap.registerPlugin(ScrollTrigger);
                 toggleActions: "play none none reverse"
             }
         });
+
+        // Interactive World Map Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize map markers
+    initializeMapMarkers();
+    
+    // Add scroll animations for map section
+    initializeMapScrollAnimations();
+});
+
+function initializeMapMarkers() {
+    const markers = document.querySelectorAll('.country-marker');
+    
+    markers.forEach(marker => {
+        const popup = marker.querySelector('.country-popup');
+        
+        // Show popup on hover
+        marker.addEventListener('mouseenter', function() {
+            // Hide all other popups first
+            document.querySelectorAll('.country-popup').forEach(p => {
+                p.style.opacity = '0';
+                p.style.visibility = 'hidden';
+            });
+            
+            // Show current popup
+            popup.style.opacity = '1';
+            popup.style.visibility = 'visible';
+            popup.style.transform = 'translateX(-50%) translateY(10px)';
+        });
+        
+        // Hide popup on mouse leave
+        marker.addEventListener('mouseleave', function() {
+            popup.style.opacity = '0';
+            popup.style.visibility = 'hidden';
+            popup.style.transform = 'translateX(-50%) translateY(0)';
+        });
+        
+        // Add click functionality for mobile
+        marker.addEventListener('click', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                
+                // Toggle popup visibility on mobile
+                const isVisible = popup.style.opacity === '1';
+                
+                if (isVisible) {
+                    popup.style.opacity = '0';
+                    popup.style.visibility = 'hidden';
+                } else {
+                    // Hide all other popups
+                    document.querySelectorAll('.country-popup').forEach(p => {
+                        p.style.opacity = '0';
+                        p.style.visibility = 'hidden';
+                    });
+                    
+                    // Show current popup
+                    popup.style.opacity = '1';
+                    popup.style.visibility = 'visible';
+                }
+            }
+        });
+    });
+}
+
+function initializeMapScrollAnimations() {
+    // Animate map elements on scroll
+    const mapSection = document.querySelector('.world-map-section');
+    const mapImage = document.querySelector('.world-map-image');
+    const summaryCards = document.querySelectorAll('.summary-card');
+    
+    if (!mapSection) return;
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Animate map image
+                if (mapImage) {
+                    gsap.fromTo(mapImage, 
+                        { opacity: 0, scale: 0.8, y: 50 },
+                        { opacity: 1, scale: 1, y: 0, duration: 1, ease: "power2.out" }
+                    );
+                }
+                
+                // Animate summary cards with stagger
+                if (summaryCards.length > 0) {
+                    gsap.fromTo(summaryCards,
+                        { opacity: 0, y: 30 },
+                        { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "power2.out" }
+                    );
+                }
+                
+                // Animate markers with delay
+                const markers = document.querySelectorAll('.country-marker');
+                markers.forEach((marker, index) => {
+                    gsap.fromTo(marker,
+                        { opacity: 0, scale: 0 },
+                        { opacity: 1, scale: 1, duration: 0.6, delay: 0.5 + (index * 0.1), ease: "back.out(1.7)" }
+                    );
+                });
+            }
+        });
+    }, { threshold: 0.3 });
+    
+    observer.observe(mapSection);
+}
+
+// Add smooth scrolling for map section
+function scrollToMapSection() {
+    const mapSection = document.querySelector('.world-map-section');
+    if (mapSection) {
+        mapSection.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+
+// Export function for potential external use
+window.scrollToMapSection = scrollToMapSection;
+        
+
+
+        // Floating elements animation
+        gsap.utils.toArray(".float-element").forEach((element, i) => {
+            gsap.to(element, {
+                y: -30,
+                duration: 3,
+                delay: i * 0.5,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+        // Screen content animations
+        gsap.utils.toArray(".data-stream, .news-feed, .analytics-chart").forEach((stream, i) => {
+            gsap.to(stream, {
+                x: "100%",
+                duration: 2,
+                delay: i * 0.3,
+                ease: "none",
+                repeat: -1
+            });
+        });
+
+        // Hologram lines animation
+        gsap.utils.toArray(".hologram-line").forEach((line, i) => {
+            gsap.to(line, {
+                scaleX: 1.2,
+                opacity: 0.8,
+                duration: 2,
+                delay: i * 0.5,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+        // AI assistant pulse animation
+        gsap.to(".ai-pulse", {
+            scale: 2,
+            opacity: 0,
+            duration: 3,
+            ease: "power2.out",
+            repeat: -1
+        });
+
+        // Digital globe rotation
+        gsap.to(".digital-globe", {
+            rotation: 360,
+            duration: 30,
+            ease: "none",
+            repeat: -1
+        });
+
+        // Data points pulse animation
+        gsap.utils.toArray(".data-point").forEach((point, i) => {
+            gsap.to(point, {
+                scale: 1.5,
+                opacity: 1,
+                duration: 1.5,
+                delay: i * 0.6,
+                ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1
+            });
+        });
+
+
+
+        // Market Opportunity Statistics Analysis Animations
+        gsap.utils.toArray(".stat-analysis-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 120,
+                opacity: 0,
+                rotationY: 20
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationY: 0,
+                duration: 1.5,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate statistics numbers
+        gsap.utils.toArray(".stat-number").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 3,
+                delay: i * 0.3,
+                ease: "power2.out",
+                onUpdate: function() {
+                    if (targetValue >= 100) {
+                        number.textContent = Math.floor(this.targets()[0].value);
+                    } else {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    }
+                },
+                onComplete: () => {
+                    number.textContent = targetValue;
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate chart bars
+        gsap.utils.toArray(".chart-bar").forEach((bar, i) => {
+            const height = bar.style.height;
+            
+            gsap.fromTo(bar, {
+                height: 0
+            }, {
+                height: height,
+                duration: 1.5,
+                delay: i * 0.1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate line charts
+        gsap.utils.toArray(".line-path").forEach((path, i) => {
+            gsap.fromTo(path, {
+                strokeDasharray: "0 1000"
+            }, {
+                strokeDasharray: "1000 0",
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: path,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate pie charts
+        gsap.utils.toArray(".pie-chart").forEach((pie, i) => {
+            gsap.fromTo(pie, {
+                transform: "rotate(0deg) scale(0)"
+            }, {
+                transform: "rotate(360deg) scale(1)",
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: pie,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate area charts
+        gsap.utils.toArray(".area-path, .area-line").forEach((area, i) => {
+            gsap.fromTo(area, {
+                strokeDasharray: "0 1000",
+                fillOpacity: 0
+            }, {
+                strokeDasharray: "1000 0",
+                fillOpacity: 1,
+                duration: 2,
+                delay: i * 0.2,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: area,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate segmentation cards
+        gsap.utils.toArray(".segment-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                x: i % 2 === 0 ? -100 : 100,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                x: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate enhanced insights
+        gsap.utils.toArray(".insight-card.primary, .insight-card.secondary").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Animate dashboard header
+        gsap.fromTo(".stats-dashboard-header", {
+            y: -50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".stats-dashboard-header",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // Animate analysis header
+        gsap.fromTo(".analysis-header", {
+            y: 50,
+            opacity: 0
+        }, {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".analysis-header",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        // New Hero Branding Animations
+        gsap.to(".company-branding", {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            delay: 0.5,
+            ease: "power3.out"
+        });
+
+
+
+        // Impact Statistics Animations
+        gsap.utils.toArray(".impact-stat-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 100,
+                opacity: 0,
+                scale: 0.8
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Impact Numbers Counter Animation
+        gsap.utils.toArray(".impact-number").forEach((number, i) => {
+            const targetValue = parseFloat(number.getAttribute('data-target'));
+
+            gsap.fromTo({value: 0}, {
+                value: targetValue,
+                duration: 2.5,
+                delay: i * 0.3,
+                ease: "power2.out",
+                onUpdate: function() {
+                    if (targetValue === 4.8) {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    } else if (targetValue === 2.5) {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    } else if (targetValue === 99.2) {
+                        number.textContent = (Math.floor(this.targets()[0].value * 10) / 10).toFixed(1);
+                    } else {
+                        number.textContent = Math.floor(this.targets()[0].value).toLocaleString();
+                    }
+                },
+                onComplete: () => {
+                    if (targetValue === 4.8) {
+                        number.textContent = "4.8";
+                    } else if (targetValue === 2.5) {
+                        number.textContent = "2.5";
+                    } else if (targetValue === 99.2) {
+                        number.textContent = "99.2";
+                    } else {
+                        number.textContent = targetValue.toLocaleString();
+                    }
+                },
+                scrollTrigger: {
+                    trigger: number,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Pricing Comparison Animations
+        gsap.utils.toArray(".plan-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                scale: 0.9
+            }, {
+                y: 0,
+                opacity: 1,
+                scale: card.classList.contains('featured') ? 1.05 : 1,
+                duration: 1.2,
+                delay: i * 0.3,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Privacy Features Animation
+        gsap.utils.toArray(".privacy-feature").forEach((feature, i) => {
+            gsap.fromTo(feature, {
+                y: 60,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: i * 0.15,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: feature,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Chart Bars Animation
+        gsap.utils.toArray(".chart-bar").forEach((bar, i) => {
+            const height = bar.getAttribute('data-height');
+
+            gsap.fromTo(bar, {
+                height: '0%'
+            }, {
+                height: height + '%',
+                duration: 1.5,
+                delay: i * 0.3,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: bar,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Solution Cards Animation
+        gsap.utils.toArray(".solution-card").forEach((card, i) => {
+            gsap.fromTo(card, {
+                y: 80,
+                opacity: 0,
+                rotationY: 15
+            }, {
+                y: 0,
+                opacity: 1,
+                rotationY: 0,
+                duration: 1.2,
+                delay: i * 0.2,
+                ease: "power3.out",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
+
+        // Thank You Section Animation
+        gsap.fromTo(".thank-you-title", {
+            y: 80,
+            opacity: 0,
+            scale: 0.8
+        }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.5,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: ".thank-you-title",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        gsap.fromTo(".final-cta-button", {
+            y: 50,
+            opacity: 0,
+            scale: 0.8
+        }, {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 1.2,
+            delay: 0.5,
+            ease: "back.out(1.7)",
+            scrollTrigger: {
+                trigger: ".final-cta-button",
+                start: "top 80%",
+                end: "bottom 20%",
+                toggleActions: "play none none reverse"
+            }
+        });
+
+        
