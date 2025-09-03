@@ -3935,8 +3935,8 @@ body {
     
     /* Adjust marker positions for better mobile visibility */
     .country-marker.egypt { top: 11%; left: 50.5%; }
-    .country-marker.jordan { top: 10%; left: 52.7%; }
-    .country-marker.lebanon { top: 11%; left: 51.2%; }
+    .country-marker.jordan { top: 11%; left: 52.7%; }
+    .country-marker.lebanon { top: 10%; left: 51.8%; }
     .country-marker.italy { top: 8%; left: 46%; }
     .country-marker.france { top: 7%; left: 43%; }
     .country-marker.england { top: 6%; left: 42%; }
