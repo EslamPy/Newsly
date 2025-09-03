@@ -3839,8 +3839,8 @@ body {
 }
 
 .country-marker.lebanon {
-    top: 29%;
-    left: 53.5%;
+    top: 26%;
+    left: 51.9%;
 }
 
 .country-marker.italy {
@@ -3981,7 +3981,7 @@ body {
     position: absolute;
     width: 20px;
     height: 20px;
-    background: rgba(255, 0, 0, 0.3);
+    background: linear-gradient(135deg, #00D4FF, #0099CC);
     border-radius: 50%;
     top: -10px;
     left: -10px;
@@ -3992,7 +3992,8 @@ body {
     position: absolute;
     width: 12px;
     height: 12px;
-    background: linear-gradient(135deg, #00D4FF, #0099CC);
+    /* background: linear-gradient(135deg, #00D4FF, #0099CC); */
+    background: red;
     border-radius: 50%;
     top: -6px;
     left: -6px;
