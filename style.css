@@ -3909,51 +3909,73 @@ body {
     .country-marker.england { top: 14%; left: 42%; }
 }
 
-@media (max-width: 576px) {
+/* iPhone and small mobile devices */
+@media (max-width: 767px) {
     .map-container {
-        aspect-ratio: 16/9;
+        aspect-ratio: 1/1.5; /* More vertical space for mobile */
         padding: 0 0.5rem;
-    }
-    
-    /* Markers keep same positions */
-    .country-marker.egypt { top: 34%; left: 50%; }
-    .country-marker.jordan { top: 30%; left: 52.4%; }
-    .country-marker.lebanon { top: 29%; left: 53.5%; }
-    .country-marker.italy { top: 22%; left: 46%; }
-    .country-marker.france { top: 19%; left: 43%; }
-    .country-marker.england { top: 14%; left: 42%; }
-}
-
-@media (max-width: 480px) {
-    .map-container {
-        aspect-ratio: 16/9;
-        padding: 0 0.25rem;
+        max-width: 100%;
+        margin: 0 auto;
     }
     
     /* Marker size for mobile */
     .country-marker .marker-pulse {
-        width: 14px;
-        height: 14px;
-        top: -7px;
-        left: -7px;
+        width: 24px;
+        height: 24px;
+        top: -12px;
+        left: -12px;
     }
     
     .country-marker .marker-dot {
-        width: 4px;
-        height: 4px;
-        top: -3px;
-        left: -3px;
+        width: 8px;
+        height: 8px;
+        top: -4px;
+        left: -4px;
     }
     
-    /* Markers keep same positions */
-    .country-marker.egypt { top: 17%; left: 50.5%; }
-    .country-marker.jordan { top: 15%; left: 52.7%; }
+    /* Adjust marker positions for better mobile visibility */
+    .country-marker.egypt { top: 45%; left: 50.5%; }
+    .country-marker.jordan { top: 40%; left: 52.7%; }
+    .country-marker.lebanon { top: 39%; left: 53.5%; }
+    .country-marker.italy { top: 30%; left: 46%; }
+    .country-marker.france { top: 25%; left: 43%; }
+    .country-marker.england { top: 20%; left: 42%; }
+    .country-marker.usa { top: 25%; left: 14%; }
+    
+    /* Adjust popup positioning */
+    .country-popup {
+        transform: translate(-50%, 20px);
+        width: 160px;
+        padding: 10px;
+    }
+    
+    .popup-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .popup-stats {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+}
+
+/* Larger phones in landscape */
+@media (max-width: 915px) and (orientation: landscape) {
+    .map-container {
+        aspect-ratio: 16/9;
+        max-height: 70vh;
+    }
+    
+    .country-marker.egypt { top: 11%; left: 50%; }
+    .country-marker.jordan { top: 8%; left: 52.4%; }
     .country-marker.lebanon { top: 8%; left: 53.5%; }
-    .country-marker.italy { top: 12%; left: 46%; }
-    .country-marker.france { top: 11%; left: 43%; }
-    .country-marker.england { top: 8%; left: 42%; }
+    .country-marker.italy { top: 6%; left: 46%; }
+    .country-marker.france { top: 4%; left: 43%; }
+    .country-marker.england { top: 2%; left: 42%; }
     .country-marker.usa { top: 12%; left: 14%; }
 }
+
 
 .marker-pulse {
     position: absolute;
