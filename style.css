@@ -3939,7 +3939,7 @@ body {
     .country-marker.lebanon { top: 39%; left: 53.5%; }
     .country-marker.italy { top: 30%; left: 46%; }
     .country-marker.france { top: 25%; left: 43%; }
-    .country-marker.england { top: 20%; left: 42%; }
+    .country-marker.england { top: 5%; left: 42%; }
     .country-marker.usa { top: 8%; left: 14%; }
     
     /* Adjust popup positioning */
