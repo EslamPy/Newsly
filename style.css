@@ -3934,13 +3934,13 @@ body {
     }
     
     /* Adjust marker positions for better mobile visibility */
-    .country-marker.egypt { top: 9%; left: 50.5%; }
-    .country-marker.jordan { top: 8%; left: 52.7%; }
-    .country-marker.lebanon { top: 39%; left: 53.5%; }
-    .country-marker.italy { top: 6%; left: 46%; }
-    .country-marker.france { top: 5%; left: 43%; }
-    .country-marker.england { top: 4%; left: 42%; }
-    .country-marker.usa { top: 8%; left: 14%; }
+    .country-marker.egypt { top: 11%; left: 50.5%; }
+    .country-marker.jordan { top: 10%; left: 52.7%; }
+    .country-marker.lebanon { top: 40%; left: 53.5%; }
+    .country-marker.italy { top: 8%; left: 46%; }
+    .country-marker.france { top: 7%; left: 43%; }
+    .country-marker.england { top: 6%; left: 42%; }
+    .country-marker.usa { top: 9%; left: 14%; }
     
     /* Adjust popup positioning */
     .country-popup {
