@@ -3829,12 +3829,12 @@ body {
 /* Marker Positioning - Precisely aligned with Map.png */
 /* These positions remain consistent across all screen sizes */
 .country-marker.egypt {
-    top: 26%;
+    top: 30%;
     left: 50%;
 }
 
 .country-marker.jordan {
-    top: 23%;
+    top: 28%;
     left: 52.4%;
 }
 
@@ -3844,18 +3844,23 @@ body {
 }
 
 .country-marker.italy {
-    top: 17%;
+    top: 22%;
     left: 46%;
 }
 
 .country-marker.france {
-    top: 15%;
+    top: 19%;
     left: 43%;
 }
 
 .country-marker.england {
-    top: 11%;
+    top: 16%;
     left: 42%;
+}
+
+.country-marker.usa {
+    top: 22%;
+    left: 15%;
 }
 
 /* Responsive Design - Markers maintain exact positions on all devices */
@@ -3925,14 +3930,29 @@ body {
         padding: 0 0.25rem;
     }
     
+    /* Marker size for mobile */
+    .country-marker .marker-pulse {
+        width: 14px;
+        height: 14px;
+        top: -7px;
+        left: -7px;
+    }
+    
+    .country-marker .marker-dot {
+        width: 4px;
+        height: 4px;
+        top: -3px;
+        left: -3px;
+    }
+    
     /* Markers keep same positions */
-    .country-marker.egypt { top: 11%; left: 50%; }
-    .country-marker.jordan { top: 8%; left: 52.4%; }
+    .country-marker.egypt { top: 17%; left: 50.5%; }
+    .country-marker.jordan { top: 15%; left: 52.7%; }
     .country-marker.lebanon { top: 8%; left: 53.5%; }
-    .country-marker.italy { top: 6%; left: 46%; }
-    .country-marker.france { top: 4%; left: 43%; }
-    .country-marker.england { top: 2%; left: 42%; }
-    .country-marker.usa { top: 7%; left: 14%; }
+    .country-marker.italy { top: 12%; left: 46%; }
+    .country-marker.france { top: 11%; left: 43%; }
+    .country-marker.england { top: 8%; left: 42%; }
+    .country-marker.usa { top: 12%; left: 14%; }
 }
 
 .marker-pulse {
