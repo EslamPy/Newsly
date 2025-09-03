@@ -1620,6 +1620,337 @@ function scrollToMapSection() {
 window.scrollToMapSection = scrollToMapSection;
         
 
+        // Interactive World Map Functionality
+        function initializeWorldMap() {
+            const countryMarkers = document.querySelectorAll('.country-marker');
+            const mapContainer = document.querySelector('.map-container');
+            
+            if (!countryMarkers.length || !mapContainer) return;
+
+            // Mobile detection
+            const isMobile = window.innerWidth <= 768 || 'ontouchstart' in window;
+            
+            // Country data for launch phases
+            const countryData = {
+                egypt: {
+                    name: 'Egypt',
+                    flag: '🇪🇬',
+                    phase: 'Phase 1 - Q1 2025',
+                    population: '104M',
+                    mobile: '85%',
+                    market: '$12B',
+                    color: '#007bff'
+                },
+                jordan: {
+                    name: 'Jordan', 
+                    flag: '🇯🇴',
+                    phase: 'Phase 1 - Q1 2025',
+                    population: '11M',
+                    mobile: '92%',
+                    market: '$3.2B',
+                    color: '#007bff'
+                },
+                italy: {
+                    name: 'Italy',
+                    flag: '🇮🇹', 
+                    phase: 'Phase 2 - Q2 2025',
+                    population: '60M',
+                    mobile: '88%',
+                    market: '$18B',
+                    color: '#28a745'
+                },
+                france: {
+                    name: 'France',
+                    flag: '🇫🇷',
+                    phase: 'Phase 2 - Q2 2025', 
+                    population: '67M',
+                    mobile: '91%',
+                    market: '$22B',
+                    color: '#28a745'
+                },
+                england: {
+                    name: 'United Kingdom',
+                    flag: '🇬🇧',
+                    phase: 'Phase 2 - Q2 2025',
+                    population: '67M', 
+                    mobile: '95%',
+                    market: '$25B',
+                    color: '#28a745'
+                }
+            };
+
+            // Animate markers on scroll
+            countryMarkers.forEach((marker, index) => {
+                const countryKey = marker.getAttribute('data-country');
+                const data = countryData[countryKey];
+                
+                if (data) {
+                    // Set marker color based on phase
+                    const markerDot = marker.querySelector('.marker-dot');
+                    const markerPulse = marker.querySelector('.marker-pulse');
+                    
+                    if (markerDot) {
+                        markerDot.style.background = `linear-gradient(135deg, ${data.color}, ${data.color}dd)`;
+                        markerDot.style.boxShadow = `0 0 20px ${data.color}66`;
+                    }
+                    
+                    if (markerPulse) {
+                        markerPulse.style.borderColor = data.color;
+                    }
+                }
+
+                // Animate marker entrance
+                gsap.fromTo(marker, {
+                    scale: 0,
+                    opacity: 0
+                }, {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.8,
+                    delay: index * 0.2,
+                    ease: "back.out(1.7)",
+                    scrollTrigger: {
+                        trigger: '.world-map-section',
+                        start: 'top 60%',
+                        end: 'bottom 40%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
+
+            // Mobile-friendly interactions
+            if (isMobile) {
+                // Touch interactions for mobile
+                countryMarkers.forEach(marker => {
+                    const popup = marker.querySelector('.country-popup');
+                    let isPopupVisible = false;
+                    
+                    // Touch start event
+                    marker.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        
+                        // Hide all other popups
+                        countryMarkers.forEach(otherMarker => {
+                            if (otherMarker !== marker) {
+                                const otherPopup = otherMarker.querySelector('.country-popup');
+                                if (otherPopup) {
+                                    gsap.to(otherPopup, {
+                                        opacity: 0,
+                                        visibility: 'hidden',
+                                        y: 10,
+                                        duration: 0.2
+                                    });
+                                }
+                            }
+                        });
+                        
+                        // Toggle current popup
+                        if (!isPopupVisible) {
+                            gsap.to(popup, {
+                                opacity: 1,
+                                visibility: 'visible',
+                                y: 0,
+                                duration: 0.3,
+                                ease: 'power2.out'
+                            });
+                            isPopupVisible = true;
+                        } else {
+                            gsap.to(popup, {
+                                opacity: 0,
+                                visibility: 'hidden',
+                                y: 10,
+                                duration: 0.2
+                            });
+                            isPopupVisible = false;
+                        }
+                    });
+                    
+                    // Reset popup visibility state when touched outside
+                    marker.addEventListener('touchend', () => {
+                        setTimeout(() => {
+                            isPopupVisible = false;
+                        }, 100);
+                    });
+                });
+                
+                // Close popups when touching outside
+                document.addEventListener('touchstart', (e) => {
+                    if (!e.target.closest('.country-marker')) {
+                        countryMarkers.forEach(marker => {
+                            const popup = marker.querySelector('.country-popup');
+                            if (popup) {
+                                gsap.to(popup, {
+                                    opacity: 0,
+                                    visibility: 'hidden',
+                                    y: 10,
+                                    duration: 0.2
+                                });
+                            }
+                        });
+                    }
+                });
+                
+            } else {
+                // Desktop hover interactions
+                countryMarkers.forEach(marker => {
+                    const popup = marker.querySelector('.country-popup');
+                    
+                    marker.addEventListener('mouseenter', () => {
+                        gsap.to(popup, {
+                            opacity: 1,
+                            visibility: 'visible',
+                            y: 0,
+                            duration: 0.3,
+                            ease: 'power2.out'
+                        });
+                        
+                        gsap.to(marker, {
+                            scale: 1.1,
+                            duration: 0.2,
+                            ease: 'power2.out'
+                        });
+                    });
+                    
+                    marker.addEventListener('mouseleave', () => {
+                        gsap.to(popup, {
+                            opacity: 0,
+                            visibility: 'hidden',
+                            y: 10,
+                            duration: 0.2
+                        });
+                        
+                        gsap.to(marker, {
+                            scale: 1,
+                            duration: 0.2,
+                            ease: 'power2.out'
+                        });
+                    });
+                });
+            }
+
+            // Animate launch legend
+            gsap.fromTo('.launch-legend', {
+                y: 50,
+                opacity: 0
+            }, {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                delay: 0.5,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: '.launch-legend',
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play none none reverse'
+                }
+            });
+
+            // Animate market summary cards
+            gsap.utils.toArray('.summary-card').forEach((card, index) => {
+                gsap.fromTo(card, {
+                    y: 60,
+                    opacity: 0,
+                    scale: 0.9
+                }, {
+                    y: 0,
+                    opacity: 1,
+                    scale: 1,
+                    duration: 0.8,
+                    delay: index * 0.1,
+                    ease: 'power2.out',
+                    scrollTrigger: {
+                        trigger: card,
+                        start: 'top 80%',
+                        end: 'bottom 20%',
+                        toggleActions: 'play none none reverse'
+                    }
+                });
+            });
+
+            // Animate summary numbers with counter effect
+            gsap.utils.toArray('.summary-number').forEach(numberEl => {
+                const finalText = numberEl.textContent;
+                const isNumeric = /^[\d.]+/.test(finalText);
+                
+                if (isNumeric) {
+                    const finalNumber = parseFloat(finalText.replace(/[^\d.]/g, ''));
+                    const unit = finalText.replace(/[\d.]/g, '');
+                    
+                    gsap.fromTo(numberEl, {
+                        textContent: 0
+                    }, {
+                        textContent: finalNumber,
+                        duration: 2,
+                        ease: 'power2.out',
+                        snap: { textContent: 0.1 },
+                        onUpdate: function() {
+                            const current = parseFloat(this.targets()[0].textContent);
+                            numberEl.textContent = current.toFixed(1) + unit;
+                        },
+                        scrollTrigger: {
+                            trigger: numberEl,
+                            start: 'top 80%',
+                            end: 'bottom 20%',
+                            toggleActions: 'play none none reverse'
+                        }
+                    });
+                }
+            });
+        }
+
+        // Responsive map adjustments
+        function adjustMapForDevice() {
+            const mapContainer = document.querySelector('.map-container');
+            const worldMapBg = document.querySelector('.world-map-bg');
+            
+            if (!mapContainer || !worldMapBg) return;
+            
+            const handleResize = () => {
+                const isMobile = window.innerWidth <= 768;
+                const isTablet = window.innerWidth <= 1024 && window.innerWidth > 768;
+                
+                // Adjust map height based on device
+                if (isMobile) {
+                    worldMapBg.style.height = window.innerWidth < 480 ? '300px' : '400px';
+                } else if (isTablet) {
+                    worldMapBg.style.height = '500px';
+                } else {
+                    worldMapBg.style.height = '600px';
+                }
+                
+                // Reinitialize interactions on resize
+                initializeWorldMap();
+            };
+            
+            // Initial adjustment
+            handleResize();
+            
+            // Listen for resize events (debounced)
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(handleResize, 250);
+            });
+        }
+
+        // Initialize map when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeWorldMap();
+            adjustMapForDevice();
+        });
+
+        // Also initialize if already loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                initializeWorldMap();
+                adjustMapForDevice();
+            });
+        } else {
+            initializeWorldMap();
+            adjustMapForDevice();
+        }
+
 
         // Floating elements animation
         gsap.utils.toArray(".float-element").forEach((element, i) => {
